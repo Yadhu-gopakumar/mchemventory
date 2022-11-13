@@ -1,0 +1,84 @@
+<!-- serach bar -->
+<div class="input-group mb-3 ">
+    {% if catagoryname == 'organic' %}
+    <form action="{% url 'organic:search' %}" method="">
+        {% csrf_token %}
+        <input type="text" class="form-control" name="query" placeholder="search in {{catagoryname}}..."
+            aria-label="Recipient's username" aria-describedby="button-addon2" required>
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">search</button>
+    </form>
+    {% elif catagoryname == 'inorganic' %}
+    <form action="{% url 'inorganic:search' %}" method="">
+        {% csrf_token %}
+        <input type="text" class="form-control" name="query" placeholder="search in {{catagoryname}}..."
+            aria-label="Recipient's username" aria-describedby="button-addon2" required>
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">search</button>
+    </form>
+    {% elif catagoryname == 'solvents' %}
+    <form action="{% url 'solvents:search' %}" method="">
+        {% csrf_token %}
+        <input type="text" class="form-control" name="query" placeholder="search in {{catagoryname}}..."
+            aria-label="Recipient's username" aria-describedby="button-addon2" required>
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">search</button>
+    </form>
+    {% endif %}
+</div>
+<!-- serach bar -->
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">substance</th>
+            <th scope="col">company</th>
+            <th scope="col">qty</th>
+            <th scope="col">amount</th>
+            <th scope="col">action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% if elems %}
+        {% for i in elems %}
+
+        <tr>
+            <th scope="row">{{i.id}}</th>
+            <td>{{i.name}}</td>
+            <td>{{i.company}}</td>
+            <td>{{i.qty}}</td>
+            <td>{{i.price}}</td>
+            <td>
+                {% if catagoryname == 'organic' %}
+                <a href="{% url 'organic:update' i.id %}">
+                    <button>update org</button>
+                </a>
+                <a href="{% url 'organic:delete' i.id %}">
+                    <button>delete</button>
+                </a>
+
+                {% elif catagoryname == 'inorganic' %}
+                <a href="{% url 'inorganic:update' i.id %}">
+                    <button>update inorg</button>
+                </a>
+                <a href="{% url 'inorganic:delete' i.id %}">
+                    <button>delete</button>
+                </a>
+
+                {% elif catagoryname == 'solvents' %}
+                <a href="{% url 'solvents:update' i.id %}">
+                    <button>update solv</button>
+                </a>
+                <a href="{% url 'solvents:delete' i.id %}">
+                    <button>delete</button>
+                </a>
+
+                {% endif %}
+
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <h2>no items found</h2>
+        {% endif %}
+    </tbody>
+</table>
